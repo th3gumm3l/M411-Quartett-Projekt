@@ -14,7 +14,9 @@ typedef struct Card {
 
 int main() {
 
+  struct Card Card;
 
+  
 
 
 
