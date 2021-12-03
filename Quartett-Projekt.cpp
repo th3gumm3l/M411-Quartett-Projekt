@@ -3,8 +3,9 @@
 
 typedef struct Card {
   char Bez[50];
-  int Wert1;
-  double Wert2;
+  int LeistungPS;
+  double Gewicht;
+  double KgproPS;
   struct Card* pNext;
 
 }struCard;
