@@ -9,7 +9,9 @@ typedef struct Card {
   struct Card* pNext;
 
 }struCard;
-
+struCard* CreateCard(const char* pAuto, int LeistungPS, double Gewicht, double KgproPS);
+struCard* AddCard(struCard* pStart, struCard* pNew);
+void Karten_print(struCard* pStart);
 
 
 int main() {
