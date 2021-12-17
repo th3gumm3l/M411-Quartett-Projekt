@@ -10,14 +10,25 @@ typedef struct Card {
 	struct Card* pNext;
 	
 }struCard;
-struCard* CreateCard(const char* pAuto, int LeistungPS, double Gewicht, double KgproPS);
-struCard* AddCard(struCard* pStart, struCard* pNew);
+
+struCard* CreateCard(
+	const char* pAuto,
+	int LeistungPS,
+	double Gewicht,
+	double KgproPS
+);
+
+struCard* AddCard(
+	struCard* pStart,
+	struCard* pNew
+);
+
 void Karten_print(struCard* pStart);
 
 
 void main() {
 	
-	Card* pStart = NULL;
+	struCard* pStart = NULL;
 	pStart = AddCard(pStart, CreateCard("Honda Civic Type R CS Fn2 2007", 201, 1300, 0.15));
 	pStart = AddCard(pStart, CreateCard("Mitsubishi Lancer EVO VI Tommi Makinen Edition 1999", 280, 1365, 0.20));
 	pStart = AddCard(pStart, CreateCard("Nissan Skyline GT-R R34 1999", 280, 1560, 0.17));
