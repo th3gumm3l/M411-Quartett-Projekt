@@ -1,3 +1,4 @@
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -6,83 +7,98 @@ typedef struct Card {
 	char Bez[100];
 	int LeistungPS;
 	double Gewicht;
-	double KgproPS;
 	struct Card* pNext;
 	
 }struCard;
 
 
-void Karten_print(struCard* pStart);
-struCard* CreateCard(const char* pAuto, int LeistungPS, double Gewicht, double KgproPS);
-struCard* AddCard(struCard* pStart, struCard* pNew);
-void Karten_print(struCard* pStart);
+struCard* Karten_erstellen(const char* pAuto, int LeistungPS, double Gewicht, double KgproPS);
+struCard* KartezuStapel(struCard* pStart, struCard* pNew);
+struCard* Karten_mischen();
+struCard* Karten_verteilen();
+struCard* Karten_vergleichen();
+struCard* Karten_neuverteilen();
 
 
 
 void main() {
 	
+	printf("-----------------\n");
+	printf("QUARTETT\n");
+	printf("-----------------\n");
+
 	struCard* pStart = NULL;
-	pStart = AddCard(pStart, CreateCard("Honda Civic Type R Competition Fn2 2007", 201, 1300, 0.15));
-	pStart = AddCard(pStart, CreateCard("Mitsubishi Lancer EVO VI Tommi Makinen Edition 1999", 280, 1365, 0.20));
-	pStart = AddCard(pStart, CreateCard("Nissan Skyline GT-R R34 1999", 280, 1560, 0.17));
-	pStart = AddCard(pStart, CreateCard("Mazda RX-7 1992", 240, 1300, 0.18));
-	pStart = AddCard(pStart, CreateCard("Mazda Miata mx 5 1990", 115, 995, 0.11));
-	pStart = AddCard(pStart, CreateCard("Mazda 3 MPS 2011", 260, 1460, 0.17));
-	pStart = AddCard(pStart, CreateCard("Toyota Supra Mk4 1997", 330, 1585, 0.20));
-	pStart = AddCard(pStart, CreateCard("Toyota Gt86 2012", 200, 1305, 0.15));
-	pStart = AddCard(pStart, CreateCard("Nissan GTR Nismo R35 2019", 600, 1725, 0.34));
-	pStart = AddCard(pStart, CreateCard("Saab 9-5 2.3 Turbo Performance 2003", 305, 1610, 0.18));
+
+	pStart = KartezuStapel(pStart, Karten_erstellen("Honda Civic Type R Competition Fn2 2007", 201, 1300));
+	pStart = KartezuStapel(pStart, Karten_erstellen("Mitsubishi Lancer EVO VI Tommi Makinen Edition 1999", 280, 1365));
+	pStart = KartezuStapel(pStart, Karten_erstellen("Nissan Skyline GT-R R34 1999", 280, 1560));
+	pStart = KartezuStapel(pStart, Karten_erstellen("Mazda RX-7 1992", 240, 1300));
+	pStart = KartezuStapel(pStart, Karten_erstellen("Mazda Miata mx 5 1990", 115, 995));
+	pStart = KartezuStapel(pStart, Karten_erstellen("Mazda 3 MPS 2011", 260, 1460));
+	pStart = KartezuStapel(pStart, Karten_erstellen("Toyota Supra Mk4 1997", 330, 1585));
+	pStart = KartezuStapel(pStart, Karten_erstellen("Toyota Gt86 2012", 200, 1305));
+	pStart = KartezuStapel(pStart, Karten_erstellen("Nissan GTR Nismo R35 2019", 600, 1725));
+	pStart = KartezuStapel(pStart, Karten_erstellen("Saab 9-5 2.3 Turbo Performance 2003", 305, 1610));
 	
-	Karten_print(pStart);
-	
-	
+
 	system("pause");
 }
 
 
-struCard* CreateCard(const char* pBez, int LeistungPS, double Gewicht, double KgproPS) {
-	struCard* pTmp = (struCard*)malloc(sizeof(struCard));
-	strcpy_s(pTmp -> Bez, pBez);
-	pTmp -> LeistungPS = LeistungPS;
-	pTmp -> Gewicht = Gewicht;
-	pTmp -> KgproPS = KgproPS;
-	pTmp -> pNext = NULL;
-	return pTmp;
+struCard* Karten_erstellen(const char* pBez, int LeistungPS, double Gewicht) {
+	
+	struCard* pTemporaerKarte = (struCard*)malloc(sizeof(struCard));
+	
+	strcpy_s(pTemporaerKarte -> Bez, pBez);
+	
+	pTemporaerKarte -> LeistungPS = LeistungPS;
+	pTemporaerKarte -> Gewicht = Gewicht;
+	pTemporaerKarte -> pNext = NULL;
+	
+	return pTemporaerKarte;
 }
 
 
-struCard* AddCard(struCard* pStart, struCard* pNew) {
-	if (pStart == NULL) {
+struCard* KartezuStapel(struCard* pStart, struCard* pNew) {
+	
+	if (pStart == NULL) 
+	{
 		pStart = pNew;
-		pNew->pNext = NULL;
 	}
 
-	else {
+	else 
+	{
 		struCard* pLast = pStart;
-		while (pLast->pNext != NULL) pLast = pLast->pNext;
+		
+		while (pLast->pNext != NULL) 
+		{
+			pLast = pLast->pNext;
+		} 
+		
 		pLast->pNext = pNew;
 	}
-	
-	
+		
 	return pStart;
 }
 
 
-void Karten_print(struCard* pStart) {
-	for (struCard* pOutCard = pStart; pOutCard != NULL; pOutCard = pOutCard->pNext)
-		printf("Auto: %-50s, LeistungPS = %i, Gewicht = %f, KgproPS = %f\n", pOutCard->Bez, pOutCard->LeistungPS, pOutCard->Gewicht, pOutCard->KgproPS);
-}
+struCard* Karten_mischen() 
+{
 
-int Karten_mischen() {
-
-
-
-	return 0;
 }
 
 
+struCard* Karten_verteilen()
+{
 
-int Karten_vergleichen() {
-	return 0;
 }
-struct Card Card;
+
+struCard* Karten_vergleichen()
+{
+
+}
+
+struCard* Karten_neuverteilen()
+{
+
+}
