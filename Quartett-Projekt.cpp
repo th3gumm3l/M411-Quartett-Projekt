@@ -13,14 +13,15 @@ typedef struct Card {
 	
 }struCard;
 
+int Stapel_zählen(struCard* pStart);
+int Random_zahl(int anz);
 
 struCard* Karten_erstellen(int Nr, const char* pAuto, int LeistungPS, double Gewicht);
 struCard* KartezuStapel(struCard* pStart, struCard* pNew);
-struCard* Karten_mischen(struCard* pStart);
-struCard* Karten_verteilen();
-struCard* Karten_vergleichen();
-struCard* Karten_neuverteilen();
+struCard* Karten_zeiger(struCard* pStart);
 
+struCard* Stapel_bearbeiten(struCard* pStart, struCard* pEinzKarte);
+struCard* Karten_vergleichen();
 
 
 void main() {
@@ -30,6 +31,12 @@ void main() {
 	printf("+++++++++++++\n");
 
 	struCard* pStart = NULL;
+	struCard* pEinzKarte = NULL;
+	struCard* pSpieler = NULL;
+	struCard* pComputer = NULL;
+
+
+	srand(time(NULL));
 
 	pStart = KartezuStapel(pStart, Karten_erstellen(1,"Honda Civic Type R Competition Fn2 2007", 201, 1300));
 	pStart = KartezuStapel(pStart, Karten_erstellen(2,"Mitsubishi Lancer EVO VI Tommi Makinen Edition 1999", 280, 1365));
@@ -42,10 +49,15 @@ void main() {
 	pStart = KartezuStapel(pStart, Karten_erstellen(9,"Nissan GTR Nismo R35 2019", 600, 1725));
 	pStart = KartezuStapel(pStart, Karten_erstellen(10,"Saab 9-5 2.3 Turbo Performance 2003", 305, 1610));
 
-	Karten_mischen(pStart);
-
-
-
+	for (int i = 1; i <= 5; i++) //Karten mischen, verteilen und entfernen aus dem Stapel
+	{
+		pEinzKarte = Karten_zeiger(pStart);
+		pStart = Stapel_bearbeiten(pStart, pEinzKarte);
+		pSpieler = KartezuStapel(pSpieler, pEinzKarte);
+		pEinzKarte = Karten_zeiger(pStart);
+		pStart = Stapel_bearbeiten(pStart, pEinzKarte);
+		pComputer = KartezuStapel(pComputer, pEinzKarte);
+	}
 
 
 	system("pause");
@@ -56,8 +68,8 @@ struCard* Karten_erstellen(int Nr, const char* pBez, int LeistungPS, double Gewi
 	
 	struCard* pTemporaerKarte = (struCard*)malloc(sizeof(struCard));
 	
-	strcpy_s(pTemporaerKarte -> Bez, pBez);
 	pTemporaerKarte -> Nr = Nr;
+	strcpy_s(pTemporaerKarte -> Bez, pBez);
 	pTemporaerKarte -> LeistungPS = LeistungPS;
 	pTemporaerKarte -> Gewicht = Gewicht;
 	pTemporaerKarte -> pNext = NULL;
@@ -89,24 +101,76 @@ struCard* KartezuStapel(struCard* pStart, struCard* pNew) {
 }
 
 
-struCard* Karten_mischen(struCard* pStart)
+int Stapel_zählen(struCard* pStart)
 {
-
-
+	int anz = 0;
+	struCard* pTmp = pStart;
+	for (pTmp; pTmp != NULL; pTmp = pTmp->pNext)
+	{
+		anz++;
+	}
+	
+	return anz;
 }
 
 
-struCard* Karten_verteilen()
+int Random_zahl(int anz)
 {
+	int random = rand() % anz;
 
+	return random;
+}
+
+
+struCard* Karten_zeiger(struCard* pStart)
+{
+	int zähler = Stapel_zählen(pStart);
+	int random_zahl = Random_zahl(zähler);
+	struCard* pStapel = pStart;
+
+	if (zähler > 0) 
+	{
+		for (int i = 0; pStapel != NULL && i != random_zahl; i++) 
+		{
+			pStapel = pStapel->pNext;
+		}
+
+	}
+
+	return pStapel;
+}
+
+
+struCard* Stapel_bearbeiten(struCard* pStart, struCard* pEinzKarte)
+{
+	if (pEinzKarte == pStart)
+	{
+		pStart = pEinzKarte->pNext;
+	}
+
+	
+	else
+  {
+    struCard* pVorherige = pStart;
+  
+		while (pVorherige->pNext != pEinzKarte)
+    {
+      pVorherige = pVorherige->pNext;
+    }
+
+    pVorherige->pNext = pEinzKarte->pNext;
+  
+	}
+  
+	pEinzKarte->pNext = NULL;
+
+  return pStart;
 }
 
 struCard* Karten_vergleichen()
 {
+	   
 
-}
 
-struCard* Karten_neuverteilen()
-{
-
+	return 0;
 }
