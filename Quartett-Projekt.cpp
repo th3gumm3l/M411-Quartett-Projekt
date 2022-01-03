@@ -15,12 +15,16 @@ typedef struct Card {
 
 int Stapel_zählen(struCard* pStart);
 int Random_zahl(int anz);
+void Karten_ausgeben(struCard* pSpieler);
 
 struCard* Karten_erstellen(int Nr, const char* pAuto, int LeistungPS, double Gewicht);
 struCard* KartezuStapel(struCard* pStart, struCard* pNew);
 struCard* Karten_zeiger(struCard* pStart);
-
 struCard* Stapel_bearbeiten(struCard* pStart, struCard* pEinzKarte);
+struCard* VordersteKarte_entfernen(struCard** pStart);
+void KarteamEnde_hinzufuegen(struCard* pStart, struCard* entfernteKarte);
+
+
 struCard* Karten_vergleichen();
 
 
@@ -54,10 +58,21 @@ void main() {
 		pEinzKarte = Karten_zeiger(pStart);
 		pStart = Stapel_bearbeiten(pStart, pEinzKarte);
 		pSpieler = KartezuStapel(pSpieler, pEinzKarte);
+
 		pEinzKarte = Karten_zeiger(pStart);
 		pStart = Stapel_bearbeiten(pStart, pEinzKarte);
 		pComputer = KartezuStapel(pComputer, pEinzKarte);
 	}
+
+	Karten_ausgeben(pSpieler);
+
+	struCard* entfernteKarte = VordersteKarte_entfernen(&pSpieler);
+
+	Karten_ausgeben(pSpieler);
+
+	KarteamEnde_hinzufuegen(pComputer, entfernteKarte);
+
+	Karten_ausgeben(pComputer);
 
 
 	system("pause");
@@ -167,6 +182,50 @@ struCard* Stapel_bearbeiten(struCard* pStart, struCard* pEinzKarte)
   return pStart;
 }
 
+
+void Karten_ausgeben(struCard* pSpieler)
+{
+	if (pSpieler == NULL)
+		return;
+
+	do
+	{
+		printf("%s", pSpieler->Bez);
+		printf("%lf", pSpieler->Gewicht);
+		printf("%i\n", pSpieler->LeistungPS);
+		
+		pSpieler = pSpieler->pNext;
+
+	} while (pSpieler != NULL);
+	
+
+}
+
+
+/// <summary>
+/// entfernt die vorderste Karte des per parameter übergebenen Stapel
+/// </summary>
+/// <param name="pStart">Stapel aus dem eine Karte entfernt werden soll</param>
+/// <returns>Die Adresse der entfernten Karte</returns>
+struCard* VordersteKarte_entfernen(struCard** pStart)
+{
+	struCard* pTemp = *pStart;
+	*pStart = pTemp->pNext;
+	pTemp->pNext = NULL;
+	return pTemp;
+}
+
+
+void KarteamEnde_hinzufuegen(struCard* pStart, struCard* entfernteKarte)
+{
+	do
+	{
+		if (pStart->pNext == NULL)
+			break;
+		pStart = pStart->pNext;
+	} while (true);
+	pStart->pNext = entfernteKarte;
+}
 
 struCard* Karten_vergleichen()
 {
