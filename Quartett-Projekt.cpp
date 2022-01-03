@@ -34,9 +34,9 @@ void main() {
 	struCard* pEinzKarte = NULL;
 	struCard* pSpieler = NULL;
 	struCard* pComputer = NULL;
-
-
 	srand(time(NULL));
+
+
 
 	pStart = KartezuStapel(pStart, Karten_erstellen(1,"Honda Civic Type R Competition Fn2 2007", 201, 1300));
 	pStart = KartezuStapel(pStart, Karten_erstellen(2,"Mitsubishi Lancer EVO VI Tommi Makinen Edition 1999", 280, 1365));
@@ -166,6 +166,7 @@ struCard* Stapel_bearbeiten(struCard* pStart, struCard* pEinzKarte)
 
   return pStart;
 }
+
 
 struCard* Karten_vergleichen()
 {
