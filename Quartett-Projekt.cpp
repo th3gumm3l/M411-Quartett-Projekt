@@ -182,25 +182,22 @@ struCard* Stapel_bearbeiten(struCard* pStart, struCard* pEinzKarte)
   return pStart;
 }
 
-
-void Karten_ausgeben(struCard* pSpieler)
+/// <summary>
+/// Gibt das mitgegebene Karten-Set aus
+/// </summary>
+/// <param name="pStapel"></param>
+void Karten_ausgeben(struCard* pStapel)
 {
-	if (pSpieler == NULL)
+	if (pStapel == NULL)
 		return;
 
 	do
 	{
-		printf("%s", pSpieler->Bez);
-		printf("%lf", pSpieler->Gewicht);
-		printf("%i\n", pSpieler->LeistungPS);
-		
-		pSpieler = pSpieler->pNext;
+		printf("%s %lf %i", pStapel->Bez, pStapel->Gewicht, pStapel->LeistungPS);
+		pStapel = pStapel->pNext;
 
-	} while (pSpieler != NULL);
-	
-
+	} while (pStapel != NULL);
 }
-
 
 /// <summary>
 /// entfernt die vorderste Karte des per parameter übergebenen Stapel
@@ -215,7 +212,11 @@ struCard* VordersteKarte_entfernen(struCard** pStart)
 	return pTemp;
 }
 
-
+/// <summary>
+/// fügt die mitgegebene Karte am Ende des Stapels hinzu
+/// </summary>
+/// <param name="pStart"></param>
+/// <param name="entfernteKarte"></param>
 void KarteamEnde_hinzufuegen(struCard* pStart, struCard* entfernteKarte)
 {
 	do
