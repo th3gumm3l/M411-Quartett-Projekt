@@ -14,11 +14,15 @@ typedef struct Card { //Definiton von struct Card
 }struCard;
 
 //Funktionen initialisieren
+
 //int
 int Stapel_zählen(struCard* pStart);
 int Random_zahl(int anz);
+
 //void
-void Karten_ausgeben(struCard* pSpieler);
+void Karten_ausgeben(const char* pTitel, struCard* pSpieler);
+void Karten_vergleichen(int eingabe, struCard** pSpieler, struCard** pComputer);
+
 //struCard
 struCard* KarteamEnde_hinzufuegen(struCard* pStart, struCard* entfernteKarte);
 struCard* Karten_erstellen(int Nr, const char* pAuto, int LeistungPS, double Gewicht);
@@ -26,7 +30,6 @@ struCard* KartezuStapel(struCard* pStart, struCard* pNew);
 struCard* Karten_zeiger(struCard* pStart);
 struCard* Stapel_bearbeiten(struCard* pStart, struCard* pEinzKarte);
 struCard* VordersteKarte_entfernen(struCard** pStart);
-struCard* Karten_vergleichen(int eingabe, struCard** pSpieler, struCard** pComputer);
 
 
 
@@ -35,6 +38,7 @@ void main() { //main Funktion wird gestartet
 	printf("+++++++++++++\n");
 	printf("QUARTETT\n");
 	printf("+++++++++++++\n");
+
 
 	struCard* pStart = NULL;
 	struCard* pEinzKarte = NULL;
@@ -54,8 +58,9 @@ void main() { //main Funktion wird gestartet
 	pStart = KartezuStapel(pStart, Karten_erstellen(8,"Toyota Gt86 2012", 200, 1305));
 	pStart = KartezuStapel(pStart, Karten_erstellen(9,"Nissan GTR Nismo R35 2019", 600, 1725));
 	pStart = KartezuStapel(pStart, Karten_erstellen(10,"Saab 9-5 2.3 Turbo Performance 2003", 305, 1610));
-
-	for (int i = 1; i <= 5; i++) //Karten mischen, verteilen und entfernen aus dem Stapel
+	
+	//Karten mischen, verteilen und entfernen aus dem Stapel
+	for (int i = 1; i <= 5; i++) 
 	{
 		pEinzKarte = Karten_zeiger(pStart);
 		pStart = Stapel_bearbeiten(pStart, pEinzKarte);
@@ -66,43 +71,81 @@ void main() { //main Funktion wird gestartet
 		pComputer = KartezuStapel(pComputer, pEinzKarte);
 	}
 
-	printf("Die Karten wurden gemischt und dir wurden 5 zuf\x84llige Karten zugeteilt...\n");
-	Karten_ausgeben(pSpieler);
+	printf("Die Karten wurden gemischt und dir wurden 5 zuf\x84llige Karten zugeteilt...\n\n\n");
+	Karten_ausgeben("Spieler:", pSpieler);
 
+	system("pause");
 
-	while (pSpieler != NULL || pComputer != NULL)
+	//Spiel wird hier hauptsächlich durchgeführt
+	while (pSpieler != NULL && pComputer != NULL)
 	{
 		int eingabe;
 		
+		system("cls");
+
 		printf("Welchen Wert willst du vergleichen?\tPS = 1 | Gewicht = 2 \n");
 		scanf_s("%i", &eingabe);
 		
+		//Leitet zum Vergleich weiter
 		if (eingabe == 1)
 		{
 			Karten_vergleichen(eingabe, &pSpieler, &pComputer);
-			Karten_ausgeben(pSpieler);
+			Karten_ausgeben("Spieler:", pSpieler);
 			printf("\n");
-			Karten_ausgeben(pComputer);
+			Karten_ausgeben("Computer:", pComputer);
 		}
 
 		else if (eingabe == 2)
 		{
-
+			Karten_vergleichen(eingabe, &pSpieler, &pComputer);
+			Karten_ausgeben("Spieler:", pSpieler);
+			printf("\n");
+			Karten_ausgeben("Computer:", pComputer);
 		}
 
-		else
+		else //ungültige Eingabe
 		{
 			printf("Falsche Eingabe");
 		}
 
+		system("pause");
+	}
 
+	system("cls");
+
+
+	//Entscheidet wer gewonnen hat
+	if (pSpieler == NULL)
+	{
+		printf("Der Computer hat dich besiegt\n\n\n");
+	}
+
+	else if (pComputer == NULL)
+	{
+		printf("Der Spieler hat den Computer besiegt\n\n\n");
+	}
+
+	else
+	{
+		printf("Das Spiel wurde gehackt\n");
 	}
 
 
-	system("pause"); //Programm wird pausiert
+
+	//Programm wird hier beendet
+	system("pause");
+
+
 }
 
-
+/// <summary>
+/// Hier werden die einzelnen Karten erstellt
+/// </summary>
+/// <param name="Nr"></param>
+/// <param name="pBez"></param>
+/// <param name="LeistungPS"></param>
+/// <param name="Gewicht"></param>
+/// <returns>Gibt jeweils die einzelne Karte zurück</returns>
 struCard* Karten_erstellen(int Nr, const char* pBez, int LeistungPS, double Gewicht) {
 	
 	struCard* pTemporaerKarte = (struCard*)malloc(sizeof(struCard));
@@ -116,7 +159,12 @@ struCard* Karten_erstellen(int Nr, const char* pBez, int LeistungPS, double Gewi
 	return pTemporaerKarte;
 }
 
-
+/// <summary>
+/// Der mitgegebene Stapel wird hier verkettet
+/// </summary>
+/// <param name="pStart"></param>
+/// <param name="pNew"></param>
+/// <returns>Gibt den verketteten Stapel zurück</returns>
 struCard* KartezuStapel(struCard* pStart, struCard* pNew) {
 	
 	if (pStart == NULL) 
@@ -227,14 +275,14 @@ struCard* Stapel_bearbeiten(struCard* pStart, struCard* pEinzKarte)
 /// Gibt das mitgegebene Karten-Set aus
 /// </summary>
 /// <param name="pStapel"></param>
-void Karten_ausgeben(struCard* pStapel)
+void Karten_ausgeben(const char* pTitel, struCard* pStapel)
 {
+	printf(pTitel); printf("\n");
 	if (pStapel == NULL)
 		return;
-
 	do
 	{
-		printf("%s\t %i\t %0.1lf\t \n", pStapel->Bez, pStapel->LeistungPS, pStapel->Gewicht);
+		printf("%-60s\t %i\t %9.1lf\t \n", pStapel->Bez, pStapel->LeistungPS, pStapel->Gewicht);
 		pStapel = pStapel->pNext;
 
 	} while (pStapel != NULL);
@@ -272,13 +320,13 @@ struCard* KarteamEnde_hinzufuegen(struCard* pStapel, struCard* neueKarte)
 }
 
 /// <summary>
-/// 
+/// Die Karten werden hier miteinander je nach Benutzereingabe verglichen. Die benutzte Karte wird hier dann auch nach unten verschoben
 /// </summary>
 /// <param name="eingabe"></param>
 /// <param name="pSpieler"></param>
 /// <param name="pComputer"></param>
-/// <returns></returns>
-struCard* Karten_vergleichen(int eingabe, struCard** pSpieler, struCard** pComputer) 
+/// <returns>Gibt keine Werte zurück</returns>
+void Karten_vergleichen(int eingabe, struCard** pSpieler, struCard** pComputer) 
 {
 
 	struCard* pPlayer = *pSpieler;
@@ -288,27 +336,56 @@ struCard* Karten_vergleichen(int eingabe, struCard** pSpieler, struCard** pCompu
 	{
 		if (pPlayer->LeistungPS < pCpu->LeistungPS)
 		{
-			printf("Computer hat gewonnen\n");
-			struCard* entfernteKarte = VordersteKarte_entfernen(&pPlayer);
-			pCpu = KarteamEnde_hinzufuegen(pCpu, entfernteKarte);
+			printf("Computer hat gewonnen\n\n\n");
+			
+			struCard* entfernteKarteP = VordersteKarte_entfernen(&pPlayer); //Dem Player wird die vorderste Karte entfernt
+			pCpu = KarteamEnde_hinzufuegen(pCpu, entfernteKarteP); //Die entfernte Karte wird dem Stapel vom Computer hinzugefügt
+
+			struCard* entfernteKarteC = VordersteKarte_entfernen(&pCpu);	//Dem Computer wird die vorderste Karte entfernt, weil sonst immer die gleiche zu oberst ist
+			pCpu = KarteamEnde_hinzufuegen(pCpu, entfernteKarteC); //Die Karte wird beim Computer nach hinten geschoben
 		}
 
 		else if (pPlayer->LeistungPS > pCpu->LeistungPS)
 		{
-			printf("Spieler hat gewonnen\n");
-			struCard* entfernteKarte = VordersteKarte_entfernen(&pCpu);
-			pPlayer = KarteamEnde_hinzufuegen(pPlayer, entfernteKarte);
+			printf("Spieler hat gewonnen\n\n\n");
+
+			struCard* entfernteKarteC = VordersteKarte_entfernen(&pCpu); //Dem Computer wird die vorderste Karte entfernt
+			pPlayer = KarteamEnde_hinzufuegen(pPlayer, entfernteKarteC); //Die entfernte Karte wird dem Stapel vom Player hinzugefügt
+
+			struCard* entfernteKarteP = VordersteKarte_entfernen(&pPlayer); //Dem Spieler wird die vorderste Karte entfernt, weil sonst immer die gleiche zu oberst ist
+			pPlayer = KarteamEnde_hinzufuegen(pPlayer, entfernteKarteP); //Die Karte wird beim Spieler nach hinten geschoben
 		}
 
 	}
 
+	//Hier passiert das gleiche wie oben, einfach ist die Eingabe hier 2 und nicht 1
 	else if (eingabe == 2)
 	{
+		if (pPlayer->Gewicht > pCpu->Gewicht)
+		{
+			printf("Computer hat gewonnen\n");
+			struCard* entfernteKarteP = VordersteKarte_entfernen(&pPlayer);
+			pCpu = KarteamEnde_hinzufuegen(pCpu, entfernteKarteP);
+
+			struCard* entfernteKarteC = VordersteKarte_entfernen(&pCpu);
+			pCpu = KarteamEnde_hinzufuegen(pCpu, entfernteKarteC);
+		}
+
+		else if (pPlayer->Gewicht < pCpu->Gewicht)
+		{
+			printf("Spieler hat gewonnen\n");
+			struCard* entfernteKarteC = VordersteKarte_entfernen(&pCpu);
+			pPlayer = KarteamEnde_hinzufuegen(pPlayer, entfernteKarteC);
+
+			struCard* entfernteKarteP = VordersteKarte_entfernen(&pPlayer);
+			pPlayer = KarteamEnde_hinzufuegen(pPlayer, entfernteKarteP);
+		}
 
 	}
 
 
-	return pPlayer, pCpu;
+	*pSpieler = pPlayer;
+	*pComputer = pCpu;
 
 }
 
