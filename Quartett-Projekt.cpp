@@ -1,15 +1,15 @@
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <time.h>
+#include <stdio.h> //Befehle für die Standard Ein- und Ausgabe
+#include <stdlib.h> //Funktionen zur Typumwandlung
+#include <string.h> //Funktionen zur Verarbeitung von Zeichenketten
+#include <time.h> 
 
-typedef struct Card {
+typedef struct Card { //Definiton von struct Card
 	int Nr;
-	char Bez[100];
-	int LeistungPS;
-	double Gewicht;
-	struct Card* pNext;
+	char Bez[100]; //Variable Definiert
+	int LeistungPS; //Variable Definiert
+	double Gewicht; //Variable Definiert
+	struct Card* pNext; //Deklaration vom Pointer pNext
 	
 }struCard;
 
@@ -28,7 +28,7 @@ void KarteamEnde_hinzufuegen(struCard* pStart, struCard* entfernteKarte);
 struCard* Karten_vergleichen();
 
 
-void main() {
+void main() { //main Funktion wird gestartet
 	
 	printf("+++++++++++++\n");
 	printf("QUARTETT\n");
@@ -42,16 +42,16 @@ void main() {
 
 
 
-	pStart = KartezuStapel(pStart, Karten_erstellen(1,"Honda Civic Type R Competition Fn2 2007", 201, 1300));
-	pStart = KartezuStapel(pStart, Karten_erstellen(2,"Mitsubishi Lancer EVO VI Tommi Makinen Edition 1999", 280, 1365));
-	pStart = KartezuStapel(pStart, Karten_erstellen(3,"Nissan Skyline GT-R R34 1999", 280, 1560));
-	pStart = KartezuStapel(pStart, Karten_erstellen(4,"Mazda RX-7 1992", 240, 1300));
-	pStart = KartezuStapel(pStart, Karten_erstellen(5,"Mazda Miata mx 5 1990", 115, 995));
-	pStart = KartezuStapel(pStart, Karten_erstellen(6,"Mazda 3 MPS 2011", 260, 1460));
-	pStart = KartezuStapel(pStart, Karten_erstellen(7,"Toyota Supra Mk4 1997", 330, 1585));
-	pStart = KartezuStapel(pStart, Karten_erstellen(8,"Toyota Gt86 2012", 200, 1305));
-	pStart = KartezuStapel(pStart, Karten_erstellen(9,"Nissan GTR Nismo R35 2019", 600, 1725));
-	pStart = KartezuStapel(pStart, Karten_erstellen(10,"Saab 9-5 2.3 Turbo Performance 2003", 305, 1610));
+	pStart = KartezuStapel(pStart, Karten_erstellen(1,"Honda Civic Type R Competition Fn2 2007", 201, 1300)); //Karte wird Hinzugefügt und Werte werden übergeben
+	pStart = KartezuStapel(pStart, Karten_erstellen(2,"Mitsubishi Lancer EVO VI Tommi Makinen Edition 1999", 280, 1365)); //Karte wird Hinzugefügt und Werte werden übergeben
+	pStart = KartezuStapel(pStart, Karten_erstellen(3,"Nissan Skyline GT-R R34 1999", 280, 1560)); //Karte wird Hinzugefügt und Werte werden übergeben
+	pStart = KartezuStapel(pStart, Karten_erstellen(4,"Mazda RX-7 1992", 240, 1300)); //Karte wird Hinzugefügt und Werte werden übergeben
+	pStart = KartezuStapel(pStart, Karten_erstellen(5,"Mazda Miata mx 5 1990", 115, 995)); //Karte wird Hinzugefügt und Werte werden übergeben
+	pStart = KartezuStapel(pStart, Karten_erstellen(6,"Mazda 3 MPS 2011", 260, 1460)); //Karte wird Hinzugefügt und Werte werden übergeben
+	pStart = KartezuStapel(pStart, Karten_erstellen(7,"Toyota Supra Mk4 1997", 330, 1585)); //Karte wird Hinzugefügt und Werte werden übergeben
+	pStart = KartezuStapel(pStart, Karten_erstellen(8,"Toyota Gt86 2012", 200, 1305)); //Karte wird Hinzugefügt und Werte werden übergeben
+	pStart = KartezuStapel(pStart, Karten_erstellen(9,"Nissan GTR Nismo R35 2019", 600, 1725)); //Karte wird Hinzugefügt und Werte werden übergeben
+	pStart = KartezuStapel(pStart, Karten_erstellen(10,"Saab 9-5 2.3 Turbo Performance 2003", 305, 1610)); //Karte wird Hinzugefügt und Werte werden übergeben
 
 	for (int i = 1; i <= 5; i++) //Karten mischen, verteilen und entfernen aus dem Stapel
 	{
@@ -64,7 +64,7 @@ void main() {
 		pComputer = KartezuStapel(pComputer, pEinzKarte);
 	}
 
-	Karten_ausgeben(pSpieler);
+	Karten_ausgeben(pSpieler); 
 
 	struCard* entfernteKarte = VordersteKarte_entfernen(&pSpieler);
 
@@ -75,7 +75,7 @@ void main() {
 	Karten_ausgeben(pComputer);
 
 
-	system("pause");
+	system("pause"); //Programm wird pausiert
 }
 
 
