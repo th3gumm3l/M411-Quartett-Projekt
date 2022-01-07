@@ -41,17 +41,17 @@ void main() { //main Funktion wird gestartet
 	srand(time(NULL));
 
 
-
-	pStart = KartezuStapel(pStart, Karten_erstellen(1,"Honda Civic Type R Competition Fn2 2007", 201, 1300)); //Karte wird Hinzugefügt und Werte werden übergeben
-	pStart = KartezuStapel(pStart, Karten_erstellen(2,"Mitsubishi Lancer EVO VI Tommi Makinen Edition 1999", 280, 1365)); //Karte wird Hinzugefügt und Werte werden übergeben
-	pStart = KartezuStapel(pStart, Karten_erstellen(3,"Nissan Skyline GT-R R34 1999", 280, 1560)); //Karte wird Hinzugefügt und Werte werden übergeben
-	pStart = KartezuStapel(pStart, Karten_erstellen(4,"Mazda RX-7 1992", 240, 1300)); //Karte wird Hinzugefügt und Werte werden übergeben
-	pStart = KartezuStapel(pStart, Karten_erstellen(5,"Mazda Miata mx 5 1990", 115, 995)); //Karte wird Hinzugefügt und Werte werden übergeben
-	pStart = KartezuStapel(pStart, Karten_erstellen(6,"Mazda 3 MPS 2011", 260, 1460)); //Karte wird Hinzugefügt und Werte werden übergeben
-	pStart = KartezuStapel(pStart, Karten_erstellen(7,"Toyota Supra Mk4 1997", 330, 1585)); //Karte wird Hinzugefügt und Werte werden übergeben
-	pStart = KartezuStapel(pStart, Karten_erstellen(8,"Toyota Gt86 2012", 200, 1305)); //Karte wird Hinzugefügt und Werte werden übergeben
-	pStart = KartezuStapel(pStart, Karten_erstellen(9,"Nissan GTR Nismo R35 2019", 600, 1725)); //Karte wird Hinzugefügt und Werte werden übergeben
-	pStart = KartezuStapel(pStart, Karten_erstellen(10,"Saab 9-5 2.3 Turbo Performance 2003", 305, 1610)); //Karte wird Hinzugefügt und Werte werden übergeben
+	//Die einzelnen Karten werden erstellt über die Karten_erstellen funktion und werden über KartezuStapel verkettet
+	pStart = KartezuStapel(pStart, Karten_erstellen(1,"Honda Civic Type R Competition Fn2 2007", 201, 1300));
+	pStart = KartezuStapel(pStart, Karten_erstellen(2,"Mitsubishi Lancer EVO VI Tommi Makinen Edition 1999", 280, 1365));
+	pStart = KartezuStapel(pStart, Karten_erstellen(3,"Nissan Skyline GT-R R34 1999", 280, 1560));
+	pStart = KartezuStapel(pStart, Karten_erstellen(4,"Mazda RX-7 1992", 240, 1300));
+	pStart = KartezuStapel(pStart, Karten_erstellen(5,"Mazda Miata mx 5 1990", 115, 995));
+	pStart = KartezuStapel(pStart, Karten_erstellen(6,"Mazda 3 MPS 2011", 260, 1460));
+	pStart = KartezuStapel(pStart, Karten_erstellen(7,"Toyota Supra Mk4 1997", 330, 1585));
+	pStart = KartezuStapel(pStart, Karten_erstellen(8,"Toyota Gt86 2012", 200, 1305));
+	pStart = KartezuStapel(pStart, Karten_erstellen(9,"Nissan GTR Nismo R35 2019", 600, 1725));
+	pStart = KartezuStapel(pStart, Karten_erstellen(10,"Saab 9-5 2.3 Turbo Performance 2003", 305, 1610));
 
 	for (int i = 1; i <= 5; i++) //Karten mischen, verteilen und entfernen aus dem Stapel
 	{
@@ -193,7 +193,7 @@ void Karten_ausgeben(struCard* pStapel)
 
 	do
 	{
-		printf("%s %lf %i", pStapel->Bez, pStapel->Gewicht, pStapel->LeistungPS);
+		printf("%s %lf %i\n", pStapel->Bez, pStapel->Gewicht, pStapel->LeistungPS);
 		pStapel = pStapel->pNext;
 
 	} while (pStapel != NULL);
