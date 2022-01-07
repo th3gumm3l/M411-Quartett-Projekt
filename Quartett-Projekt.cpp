@@ -13,19 +13,19 @@ typedef struct Card { //Definiton von struct Card
 	
 }struCard;
 
+//Funktionen initialisieren
 int Stapel_zählen(struCard* pStart);
 int Random_zahl(int anz);
 void Karten_ausgeben(struCard* pSpieler);
+void KarteamEnde_hinzufuegen(struCard* pStart, struCard* entfernteKarte);
 
 struCard* Karten_erstellen(int Nr, const char* pAuto, int LeistungPS, double Gewicht);
 struCard* KartezuStapel(struCard* pStart, struCard* pNew);
 struCard* Karten_zeiger(struCard* pStart);
 struCard* Stapel_bearbeiten(struCard* pStart, struCard* pEinzKarte);
 struCard* VordersteKarte_entfernen(struCard** pStart);
-void KarteamEnde_hinzufuegen(struCard* pStart, struCard* entfernteKarte);
+struCard* Karten_vergleichen(int eingabe, struCard** pSpieler, struCard** pComputer);
 
-
-struCard* Karten_vergleichen();
 
 
 void main() { //main Funktion wird gestartet
@@ -44,8 +44,8 @@ void main() { //main Funktion wird gestartet
 	//Die einzelnen Karten werden erstellt über die Karten_erstellen funktion und werden über KartezuStapel verkettet
 	pStart = KartezuStapel(pStart, Karten_erstellen(1,"Honda Civic Type R Competition Fn2 2007", 201, 1300));
 	pStart = KartezuStapel(pStart, Karten_erstellen(2,"Mitsubishi Lancer EVO VI Tommi Makinen Edition 1999", 280, 1365));
-	pStart = KartezuStapel(pStart, Karten_erstellen(3,"Nissan Skyline GT-R R34 1999", 280, 1560));
-	pStart = KartezuStapel(pStart, Karten_erstellen(4,"Mazda RX-7 1992", 240, 1300));
+	pStart = KartezuStapel(pStart, Karten_erstellen(3,"Nissan Skyline GT-R R34 1999", 290, 1560));
+	pStart = KartezuStapel(pStart, Karten_erstellen(4,"Mazda RX-7 1992", 240, 1310));
 	pStart = KartezuStapel(pStart, Karten_erstellen(5,"Mazda Miata mx 5 1990", 115, 995));
 	pStart = KartezuStapel(pStart, Karten_erstellen(6,"Mazda 3 MPS 2011", 260, 1460));
 	pStart = KartezuStapel(pStart, Karten_erstellen(7,"Toyota Supra Mk4 1997", 330, 1585));
@@ -64,6 +64,33 @@ void main() { //main Funktion wird gestartet
 		pComputer = KartezuStapel(pComputer, pEinzKarte);
 	}
 
+	printf("Die Karten wurden gemischt und dir wurden 5 zuf\x84llige Karten zugeteilt...\n");
+
+	while (pSpieler != NULL || pComputer != NULL)
+	{
+		int eingabe;
+		
+		printf("Welchen Wert willst du vergleichen?\tPS = 1 | Gewicht = 2");
+		scanf_s("%i", &eingabe);
+		
+		if (eingabe == 1)
+		{
+			
+		}
+
+		else if (eingabe == 2)
+		{
+
+		}
+
+		else
+		{
+			printf("Falsche Eingabe");
+		}
+
+
+	}
+	
 	Karten_ausgeben(pSpieler); 
 
 	struCard* entfernteKarte = VordersteKarte_entfernen(&pSpieler);
@@ -115,7 +142,11 @@ struCard* KartezuStapel(struCard* pStart, struCard* pNew) {
 	return pStart;
 }
 
-
+/// <summary>
+/// Zählt wie viele Karten im Stapel vorhanden sind, welcher mitgegeben wird.
+/// </summary>
+/// <param name="pStart"></param>
+/// <returns>Gibt die Anzahl zurück</returns>
 int Stapel_zählen(struCard* pStart)
 {
 	int anz = 0;
@@ -128,7 +159,11 @@ int Stapel_zählen(struCard* pStart)
 	return anz;
 }
 
-
+/// <summary>
+/// Gibt eine Random Zahl zurück
+/// </summary>
+/// <param name="anz"></param>
+/// <returns></returns>
 int Random_zahl(int anz)
 {
 	int random = rand() % anz;
@@ -136,7 +171,11 @@ int Random_zahl(int anz)
 	return random;
 }
 
-
+/// <summary>
+/// Wählt über die Random_zahl funktion eine beliebige Karte vom Stapel auf und gibt die einzelne Karte zurück
+/// </summary>
+/// <param name="pStart"></param>
+/// <returns></returns>
 struCard* Karten_zeiger(struCard* pStart)
 {
 	int zähler = Stapel_zählen(pStart);
@@ -155,7 +194,12 @@ struCard* Karten_zeiger(struCard* pStart)
 	return pStapel;
 }
 
-
+/// <summary>
+///	
+/// </summary>
+/// <param name="pStart"></param>
+/// <param name="pEinzKarte"></param>
+/// <returns>pStart</returns>
 struCard* Stapel_bearbeiten(struCard* pStart, struCard* pEinzKarte)
 {
 	if (pEinzKarte == pStart)
@@ -204,10 +248,10 @@ void Karten_ausgeben(struCard* pStapel)
 /// </summary>
 /// <param name="pStart">Stapel aus dem eine Karte entfernt werden soll</param>
 /// <returns>Die Adresse der entfernten Karte</returns>
-struCard* VordersteKarte_entfernen(struCard** pStart)
+struCard* VordersteKarte_entfernen(struCard** pStapel)
 {
-	struCard* pTemp = *pStart;
-	*pStart = pTemp->pNext;
+	struCard* pTemp = *pStapel;
+	*pStapel = pTemp->pNext;
 	pTemp->pNext = NULL;
 	return pTemp;
 }
@@ -217,21 +261,43 @@ struCard* VordersteKarte_entfernen(struCard** pStart)
 /// </summary>
 /// <param name="pStart"></param>
 /// <param name="entfernteKarte"></param>
-void KarteamEnde_hinzufuegen(struCard* pStart, struCard* entfernteKarte)
+void KarteamEnde_hinzufuegen(struCard* pStapel, struCard* entfernteKarte)
 {
 	do
 	{
-		if (pStart->pNext == NULL)
+		if (pStapel->pNext == NULL)
 			break;
-		pStart = pStart->pNext;
+		pStapel = pStapel->pNext;
 	} while (true);
-	pStart->pNext = entfernteKarte;
+	pStapel->pNext = entfernteKarte;
 }
 
-struCard* Karten_vergleichen()
+/// <summary>
+/// 
+/// </summary>
+/// <param name="eingabe"></param>
+/// <param name="pSpieler"></param>
+/// <param name="pComputer"></param>
+/// <returns></returns>
+struCard* Karten_vergleichen(int eingabe, struCard** pSpieler, struCard** pComputer) 
 {
-	   
 
+	struCard* pPlayer = *pSpieler;
+	struCard* pCpu = *pComputer;
 
-	return 0;
+	if (eingabe == 1)
+	{
+		if (pPlayer->LeistungPS < pCpu->LeistungPS)
+		{
+			printf("");
+		}
+
+	}
+
+	else if (eingabe == 2)
+	{
+
+	}
+
 }
+
