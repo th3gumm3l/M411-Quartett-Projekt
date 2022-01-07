@@ -24,10 +24,10 @@ void Karten_ausgeben(const char* pTitel, struCard* pSpieler);
 void Karten_vergleichen(int eingabe, struCard** pSpieler, struCard** pComputer);
 
 //struCard
-struCard* KarteamEnde_hinzufuegen(struCard* pStart, struCard* entfernteKarte);
 struCard* Karten_erstellen(int Nr, const char* pAuto, int LeistungPS, double Gewicht);
 struCard* KartezuStapel(struCard* pStart, struCard* pNew);
 struCard* Karten_zeiger(struCard* pStart);
+struCard* KarteamEnde_hinzufuegen(struCard* pStart, struCard* entfernteKarte);
 struCard* Stapel_bearbeiten(struCard* pStart, struCard* pEinzKarte);
 struCard* VordersteKarte_entfernen(struCard** pStart);
 
@@ -139,55 +139,6 @@ void main() { //main Funktion wird gestartet
 }
 
 /// <summary>
-/// Hier werden die einzelnen Karten erstellt
-/// </summary>
-/// <param name="Nr"></param>
-/// <param name="pBez"></param>
-/// <param name="LeistungPS"></param>
-/// <param name="Gewicht"></param>
-/// <returns>Gibt jeweils die einzelne Karte zurück</returns>
-struCard* Karten_erstellen(int Nr, const char* pBez, int LeistungPS, double Gewicht) {
-	
-	struCard* pTemporaerKarte = (struCard*)malloc(sizeof(struCard));
-	
-	pTemporaerKarte -> Nr = Nr;
-	strcpy_s(pTemporaerKarte -> Bez, pBez);
-	pTemporaerKarte -> LeistungPS = LeistungPS;
-	pTemporaerKarte -> Gewicht = Gewicht;
-	pTemporaerKarte -> pNext = NULL;
-	
-	return pTemporaerKarte;
-}
-
-/// <summary>
-/// Der mitgegebene Stapel wird hier verkettet
-/// </summary>
-/// <param name="pStart"></param>
-/// <param name="pNew"></param>
-/// <returns>Gibt den verketteten Stapel zurück</returns>
-struCard* KartezuStapel(struCard* pStart, struCard* pNew) {
-	
-	if (pStart == NULL) 
-	{
-		pStart = pNew;
-	}
-
-	else 
-	{
-		struCard* pLast = pStart;
-		
-		while (pLast->pNext != NULL) 
-		{
-			pLast = pLast->pNext;
-		} 
-		
-		pLast->pNext = pNew;
-	}
-		
-	return pStart;
-}
-
-/// <summary>
 /// Zählt wie viele Karten im Stapel vorhanden sind, welcher mitgegeben wird.
 /// </summary>
 /// <param name="pStart"></param>
@@ -214,109 +165,6 @@ int Random_zahl(int anz)
 	int random = rand() % anz;
 
 	return random;
-}
-
-/// <summary>
-/// Wählt über die Random_zahl funktion eine beliebige Karte vom Stapel auf und gibt die einzelne Karte zurück
-/// </summary>
-/// <param name="pStart"></param>
-/// <returns></returns>
-struCard* Karten_zeiger(struCard* pStart)
-{
-	int zähler = Stapel_zählen(pStart);
-	int random_zahl = Random_zahl(zähler);
-	struCard* pStapel = pStart;
-
-	if (zähler > 0) 
-	{
-		for (int i = 0; pStapel != NULL && i != random_zahl; i++) 
-		{
-			pStapel = pStapel->pNext;
-		}
-
-	}
-
-	return pStapel;
-}
-
-/// <summary>
-///	
-/// </summary>
-/// <param name="pStart"></param>
-/// <param name="pEinzKarte"></param>
-/// <returns>pStart</returns>
-struCard* Stapel_bearbeiten(struCard* pStart, struCard* pEinzKarte)
-{
-	if (pEinzKarte == pStart)
-	{
-		pStart = pEinzKarte->pNext;
-	}
-
-	
-	else
-  {
-    struCard* pVorherige = pStart;
-  
-		while (pVorherige->pNext != pEinzKarte)
-    {
-      pVorherige = pVorherige->pNext;
-    }
-
-    pVorherige->pNext = pEinzKarte->pNext;
-  
-	}
-  
-	pEinzKarte->pNext = NULL;
-
-  return pStart;
-}
-
-/// <summary>
-/// Gibt das mitgegebene Karten-Set aus
-/// </summary>
-/// <param name="pStapel"></param>
-void Karten_ausgeben(const char* pTitel, struCard* pStapel)
-{
-	printf(pTitel); printf("\n");
-	if (pStapel == NULL)
-		return;
-	do
-	{
-		printf("%-60s\t %i\t %9.1lf\t \n", pStapel->Bez, pStapel->LeistungPS, pStapel->Gewicht);
-		pStapel = pStapel->pNext;
-
-	} while (pStapel != NULL);
-}
-
-/// <summary>
-/// entfernt die vorderste Karte des per parameter übergebenen Stapel
-/// </summary>
-/// <param name="pStart">Stapel aus dem eine Karte entfernt werden soll</param>
-/// <returns>Die Adresse der entfernten Karte</returns>
-struCard* VordersteKarte_entfernen(struCard** pStapel)
-{
-	struCard* pTemp = *pStapel;
-	*pStapel = pTemp->pNext;
-	pTemp->pNext = NULL;
-	return pTemp;
-}
-
-/// <summary>
-/// fügt die mitgegebene Karte am Ende des Stapels hinzu
-/// </summary>
-/// <param name="pStart"></param>
-/// <param name="entfernteKarte"></param>
-struCard* KarteamEnde_hinzufuegen(struCard* pStapel, struCard* neueKarte)
-{
-	neueKarte->pNext = NULL;
-	if (pStapel != NULL) 
-	{
-		struCard* pLastCard = pStapel;
-		while (pLastCard->pNext != NULL) pLastCard = pLastCard->pNext;
-		pLastCard->pNext = neueKarte;
-	}
-	else pStapel = neueKarte;
-	return pStapel;
 }
 
 /// <summary>
@@ -387,5 +235,158 @@ void Karten_vergleichen(int eingabe, struCard** pSpieler, struCard** pComputer)
 	*pSpieler = pPlayer;
 	*pComputer = pCpu;
 
+}
+
+/// <summary>
+/// Gibt das mitgegebene Karten-Set aus
+/// </summary>
+/// <param name="pStapel"></param>
+void Karten_ausgeben(const char* pTitel, struCard* pStapel)
+{
+	printf(pTitel); printf("\n");
+	if (pStapel == NULL)
+		return;
+	do
+	{
+		printf("%-60s\t %i\t %9.1lf\t \n", pStapel->Bez, pStapel->LeistungPS, pStapel->Gewicht);
+		pStapel = pStapel->pNext;
+
+	} while (pStapel != NULL);
+}
+
+
+/// <summary>
+/// Hier werden die einzelnen Karten erstellt
+/// </summary>
+/// <param name="Nr"></param>
+/// <param name="pBez"></param>
+/// <param name="LeistungPS"></param>
+/// <param name="Gewicht"></param>
+/// <returns>Gibt jeweils die einzelne Karte zurück</returns>
+struCard* Karten_erstellen(int Nr, const char* pBez, int LeistungPS, double Gewicht) {
+	
+	struCard* pTemporaerKarte = (struCard*)malloc(sizeof(struCard));
+	
+	pTemporaerKarte -> Nr = Nr;
+	strcpy_s(pTemporaerKarte -> Bez, pBez);
+	pTemporaerKarte -> LeistungPS = LeistungPS;
+	pTemporaerKarte -> Gewicht = Gewicht;
+	pTemporaerKarte -> pNext = NULL;
+	
+	return pTemporaerKarte;
+}
+
+/// <summary>
+/// Der mitgegebene Stapel wird hier verkettet
+/// </summary>
+/// <param name="pStart"></param>
+/// <param name="pNew"></param>
+/// <returns>Gibt den verketteten Stapel zurück</returns>
+struCard* KartezuStapel(struCard* pStart, struCard* pNew) {
+	
+	if (pStart == NULL) 
+	{
+		pStart = pNew;
+	}
+
+	else 
+	{
+		struCard* pLast = pStart;
+		
+		while (pLast->pNext != NULL) 
+		{
+			pLast = pLast->pNext;
+		} 
+		
+		pLast->pNext = pNew;
+	}
+		
+	return pStart;
+}
+
+/// <summary>
+/// Wählt über die Random_zahl funktion eine beliebige Karte vom Stapel auf und gibt die einzelne Karte zurück
+/// </summary>
+/// <param name="pStart"></param>
+/// <returns></returns>
+struCard* Karten_zeiger(struCard* pStart)
+{
+	int zähler = Stapel_zählen(pStart);
+	int random_zahl = Random_zahl(zähler);
+	struCard* pStapel = pStart;
+
+	if (zähler > 0) 
+	{
+		for (int i = 0; pStapel != NULL && i != random_zahl; i++) 
+		{
+			pStapel = pStapel->pNext;
+		}
+
+	}
+
+	return pStapel;
+}
+
+/// <summary>
+///	
+/// </summary>
+/// <param name="pStart"></param>
+/// <param name="pEinzKarte"></param>
+/// <returns>pStart</returns>
+struCard* Stapel_bearbeiten(struCard* pStart, struCard* pEinzKarte)
+{
+	if (pEinzKarte == pStart)
+	{
+		pStart = pEinzKarte->pNext;
+	}
+
+	
+	else
+  {
+    struCard* pVorherige = pStart;
+  
+		while (pVorherige->pNext != pEinzKarte)
+    {
+      pVorherige = pVorherige->pNext;
+    }
+
+    pVorherige->pNext = pEinzKarte->pNext;
+  
+	}
+  
+	pEinzKarte->pNext = NULL;
+
+  return pStart;
+}
+
+/// <summary>
+/// entfernt die vorderste Karte des per parameter übergebenen Stapel
+/// </summary>
+/// <param name="pStart">Stapel aus dem eine Karte entfernt werden soll</param>
+/// <returns>Die Adresse der entfernten Karte</returns>
+struCard* VordersteKarte_entfernen(struCard** pStapel)
+{
+	struCard* pTemp = *pStapel;
+	*pStapel = pTemp->pNext;
+	pTemp->pNext = NULL;
+	return pTemp;
+}
+
+/// <summary>
+/// fügt die mitgegebene Karte am Ende des Stapels hinzu
+/// </summary>
+/// <param name="pStart"></param>
+/// <param name="entfernteKarte"></param>
+struCard* KarteamEnde_hinzufuegen(struCard* pStapel, struCard* neueKarte)
+{
+	neueKarte->pNext = NULL;
+	if (pStapel != NULL) 
+	{
+		struCard* pLastCard = pStapel;
+		while (pLastCard->pNext != NULL) pLastCard = pLastCard->pNext;
+		pLastCard->pNext = neueKarte;
+	}
+	else pStapel = neueKarte;
+	return pStapel;
 }
 
