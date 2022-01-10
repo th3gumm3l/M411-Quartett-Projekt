@@ -1,8 +1,14 @@
+//Code written by: Tim Bernhard (Git: th3gummel)
+//Commentarys written by: Simon Gerhard (Git: Simondj9)
+//(Commits and pushs)Bearbeitungen und Uploads der einzeln Mitglieder können über Github hier verfolgt werden: https://github.com/th3gumm3l/M411-Quartett-Projekt
+
 
 #include <stdio.h> //Befehle für die Standard Ein- und Ausgabe
 #include <stdlib.h> //Funktionen zur Typumwandlung
 #include <string.h> //Funktionen zur Verarbeitung von Zeichenketten
 #include <time.h> 
+
+
 
 typedef struct Card { //Definiton von struct Card
 	int Nr;
@@ -13,8 +19,9 @@ typedef struct Card { //Definiton von struct Card
 	
 }struCard;
 
-//Funktionen initialisieren
 
+
+//Funktionen initialisieren
 //int
 int Stapel_zählen(struCard* pStart);
 int Random_zahl(int anz);
@@ -74,14 +81,14 @@ void main() { //main Funktion wird gestartet
 	printf("Die Karten wurden gemischt und dir wurden 5 zuf\x84llige Karten zugeteilt...\n\n\n");
 	Karten_ausgeben("Spieler:", pSpieler);
 
-	system("pause");
+	system("pause"); //Pausiert die Applikation
 
 	//Spiel wird hier hauptsächlich durchgeführt
-	while (pSpieler != NULL && pComputer != NULL)
+	while (pSpieler != NULL && pComputer != NULL)// Solange das Kartenset beider Spieler nicht NULL ist, wird die Schleife ausgeführt
 	{
 		int eingabe;
 		
-		system("cls");
+		system("cls"); //cls --> Clear Screen, löscht den inhalt oberhalb dieser Zeile im Terminal
 
 		printf("Welchen Wert willst du vergleichen?\tPS = 1 | Gewicht = 2 \n");
 		Karten_ausgeben("\nDeine Karten:", pSpieler);
@@ -138,7 +145,7 @@ void main() { //main Funktion wird gestartet
 }
 
 /// <summary>
-/// Zählt wie viele Karten im Stapel vorhanden sind, welcher mitgegeben wird.
+/// Zählt wie viele Karten im Stapel vorhanden sind von denjenigem der mitgegeben wird.
 /// </summary>
 /// <param name="pStart"></param>
 /// <returns>Gibt die Anzahl zurück</returns>
@@ -155,10 +162,10 @@ int Stapel_zählen(struCard* pStart)
 }
 
 /// <summary>
-/// Gibt eine Random Zahl zurück
+/// Definiert eine zufällige Zahl aus der Anzahl
 /// </summary>
-/// <param name="anz"></param>
-/// <returns></returns>
+/// <param name="anz">Anzahl gezählte Karten</param>
+/// <returns>Gibt eine Random Zahl zurück</returns>
 int Random_zahl(int anz)
 {
 	int random = rand() % anz;
@@ -169,9 +176,9 @@ int Random_zahl(int anz)
 /// <summary>
 /// Die Karten werden hier miteinander je nach Benutzereingabe verglichen. Die benutzte Karte wird hier dann auch nach unten verschoben
 /// </summary>
-/// <param name="eingabe"></param>
-/// <param name="pSpieler"></param>
-/// <param name="pComputer"></param>
+/// <param name="eingabe">Benutzereingabe für den Entscheid des Vergleichs</param>
+/// <param name="pSpieler">aktueller Stapel des Spielers</param>
+/// <param name="pComputer">aktueller Stapel des Computers</param>
 /// <returns>Gibt keine Werte zurück</returns>
 void Karten_vergleichen(int eingabe, struCard** pSpieler, struCard** pComputer) 
 {
@@ -237,9 +244,10 @@ void Karten_vergleichen(int eingabe, struCard** pSpieler, struCard** pComputer)
 }
 
 /// <summary>
-/// Gibt das mitgegebene Karten-Set aus
+/// Gibt das mitgegebene Stapel-Set aus, solange der pNext im Stapel nicht auf NULL zeigt
 /// </summary>
-/// <param name="pStapel"></param>
+/// <param name="pTitel">Definiert noch einen beliebigen Text</param>
+/// <param name="pStapel">Der mitgegebene Stapel</param>
 void Karten_ausgeben(const char* pTitel, struCard* pStapel)
 {
 	printf(pTitel); printf("\n");
@@ -254,49 +262,49 @@ void Karten_ausgeben(const char* pTitel, struCard* pStapel)
 }
 
 /// <summary>
-/// Hier werden die einzelnen Karten erstellt
+/// Hier werden die einzelnen Karten erstellt und ihre Werte beschrieben
 /// </summary>
-/// <param name="Nr"></param>
-/// <param name="pBez"></param>
-/// <param name="LeistungPS"></param>
-/// <param name="Gewicht"></param>
+/// <param name="Nr">Dient zur identifizierung bei der Fehleranalyse</param>
+/// <param name="pBez">Ist die Bezeichnung der einzelnen Karte</param>
+/// <param name="LeistungPS">Ist die Leistung des Autos auf der Karte</param>
+/// <param name="Gewicht">Ist das Gewicht des Autos auf der Karte</param>
 /// <returns>Gibt jeweils die einzelne Karte zurück</returns>
 struCard* Karten_erstellen(int Nr, const char* pBez, int LeistungPS, double Gewicht) {
 	
-	struCard* pTemporaerKarte = (struCard*)malloc(sizeof(struCard));
+	struCard* pTemporaerKarte = (struCard*)malloc(sizeof(struCard)); //Reserviert jeweils den Speicher für die Karte nach der exakten Grösse einer solchen Karte
 	
 	pTemporaerKarte -> Nr = Nr;
-	strcpy_s(pTemporaerKarte -> Bez, pBez);
+	strcpy_s(pTemporaerKarte -> Bez, pBez); //Kopiert das Char-Array
 	pTemporaerKarte -> LeistungPS = LeistungPS;
 	pTemporaerKarte -> Gewicht = Gewicht;
-	pTemporaerKarte -> pNext = NULL;
+	pTemporaerKarte -> pNext = NULL; //Definiert einen zeiger und setzt ihn auf NULL
 	
 	return pTemporaerKarte;
 }
 
 /// <summary>
-/// Der mitgegebene Stapel wird hier verkettet
+/// Der mitgegebene Stapel wird hier verkettet und danach zurückgegeben
 /// </summary>
 /// <param name="pStart"></param>
-/// <param name="pNew"></param>
+/// <param name="pNew">Ist die einzelne Karte</param>
 /// <returns>Gibt den verketteten Stapel zurück</returns>
 struCard* KartezuStapel(struCard* pStart, struCard* pNew) {
 	
 	if (pStart == NULL) 
 	{
-		pStart = pNew;
+		pStart = pNew; //Erste Karte wird hier als erste definiert
 	}
 
 	else 
 	{
 		struCard* pLast = pStart;
 		
-		while (pLast->pNext != NULL) 
+		while (pLast->pNext != NULL)  //wird solange ausgeführt bis pNext auf NULL zeigt und die letzte Karte erreicht wurde
 		{
 			pLast = pLast->pNext;
 		} 
 		
-		pLast->pNext = pNew;
+		pLast->pNext = pNew; //setzt die letzte Karte
 	}
 		
 	return pStart;
@@ -305,7 +313,7 @@ struCard* KartezuStapel(struCard* pStart, struCard* pNew) {
 /// <summary>
 /// Wählt über die Random_zahl funktion eine beliebige Karte vom Stapel auf und gibt die einzelne Karte zurück
 /// </summary>
-/// <param name="pStart"></param>
+/// <param name="pStart">Ist der mitgegebene Stapel</param>
 /// <returns></returns>
 struCard* Karten_zeiger(struCard* pStart)
 {
@@ -326,10 +334,10 @@ struCard* Karten_zeiger(struCard* pStart)
 }
 
 /// <summary>
-///	
+///	Hier werden die Karten im Stapel neuverbunden
 /// </summary>
-/// <param name="pStart"></param>
-/// <param name="pEinzKarte"></param>
+/// <param name="pStart">mitgegebener Stapel</param>
+/// <param name="pEinzKarte">einzelne aus der Karten_zeiger funktion ausgewählte Karte</param>
 /// <returns>pStart</returns>
 struCard* Stapel_bearbeiten(struCard* pStart, struCard* pEinzKarte)
 {
@@ -337,7 +345,6 @@ struCard* Stapel_bearbeiten(struCard* pStart, struCard* pEinzKarte)
 	{
 		pStart = pEinzKarte->pNext;
 	}
-
 	
 	else
   {
@@ -371,10 +378,11 @@ struCard* VordersteKarte_entfernen(struCard** pStapel)
 }
 
 /// <summary>
-/// fügt die mitgegebene Karte am Ende des Stapels hinzu
+/// fügt die mitgegebene Karte am Ende des mitgegebenen Stapels hinzu
 /// </summary>
-/// <param name="pStart"></param>
-/// <param name="entfernteKarte"></param>
+/// <param name="pStapel">mitgegebener Stapel</param>
+/// <param name="neueKarte">Ist die Karte welche am Ende hinzugefügt werden soll</param>
+/// <returns>pStapel</returns>
 struCard* KarteamEnde_hinzufuegen(struCard* pStapel, struCard* neueKarte)
 {
 	neueKarte->pNext = NULL;
