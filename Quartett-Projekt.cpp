@@ -79,9 +79,10 @@ void main() { //main Funktion wird gestartet
 	}
 
 	printf("Die Karten wurden gemischt und dir wurden 5 zuf\x84llige Karten zugeteilt...\n\n\n");
-	Karten_ausgeben("Spieler:", pSpieler);
+	Karten_ausgeben("Deine Karten:", pSpieler);
 
 	system("pause"); //Pausiert die Applikation
+
 
 	//Spiel wird hier hauptsächlich durchgeführt
 	while (pSpieler != NULL && pComputer != NULL)// Solange das Kartenset beider Spieler nicht NULL ist, wird die Schleife ausgeführt
@@ -90,22 +91,27 @@ void main() { //main Funktion wird gestartet
 		
 		system("cls"); //cls --> Clear Screen, löscht den inhalt oberhalb dieser Zeile im Terminal
 
+		printf("Aktuelle Karte:\n\n%-60s\t %i\t %9.1lf\t \n\n", pSpieler->Bez, pSpieler->LeistungPS, pSpieler->Gewicht);
+		
+		int SpielerAnz = Stapel_zählen(pSpieler); //Liest jedesmal die Anzahl des Stapels des Spielers aus
+		int CompAnz = Stapel_zählen(pComputer); //Liest jedesmal die Anzahl des Stapels des Computers aus
+		
+		printf("Du hast %i Karten\n", SpielerAnz);
+		printf("Der Computer hat noch %i Karten\n\n", CompAnz);
+
 		printf("Welchen Wert willst du vergleichen?\tPS = 1 | Gewicht = 2 \n");
-		Karten_ausgeben("\nDeine Karten:", pSpieler);
 		scanf_s("%i", &eingabe);
 		
 		//Leitet zum Vergleich weiter
 		if (eingabe == 1)
 		{
 			Karten_vergleichen(eingabe, &pSpieler, &pComputer);
-			Karten_ausgeben("\nDeine Karten:", pSpieler);
 			printf("\n");
 		}
 
 		else if (eingabe == 2)
 		{
 			Karten_vergleichen(eingabe, &pSpieler, &pComputer);
-			Karten_ausgeben("\nDeine Karten:", pSpieler);
 			printf("\n");
 		}
 
@@ -140,7 +146,6 @@ void main() { //main Funktion wird gestartet
 
 	//Programm wird hier beendet
 	system("pause");
-
 
 }
 
@@ -190,6 +195,7 @@ void Karten_vergleichen(int eingabe, struCard** pSpieler, struCard** pComputer)
 	{
 		if (pPlayer->LeistungPS < pCpu->LeistungPS)
 		{
+			system("cls");
 			printf("\nComputer hat gewonnen\n\n");
 			
 			struCard* entfernteKarteP = VordersteKarte_entfernen(&pPlayer); //Dem Player wird die vorderste Karte entfernt
@@ -201,6 +207,7 @@ void Karten_vergleichen(int eingabe, struCard** pSpieler, struCard** pComputer)
 
 		else if (pPlayer->LeistungPS > pCpu->LeistungPS)
 		{
+			system("cls");
 			printf("\nDu hast gewonnen\n\n");
 
 			struCard* entfernteKarteC = VordersteKarte_entfernen(&pCpu); //Dem Computer wird die vorderste Karte entfernt
@@ -217,6 +224,7 @@ void Karten_vergleichen(int eingabe, struCard** pSpieler, struCard** pComputer)
 	{
 		if (pPlayer->Gewicht > pCpu->Gewicht)
 		{
+			system("cls");
 			printf("\nComputer hat gewonnen\n\n");
 			struCard* entfernteKarteP = VordersteKarte_entfernen(&pPlayer);
 			pCpu = KarteamEnde_hinzufuegen(pCpu, entfernteKarteP);
@@ -227,6 +235,7 @@ void Karten_vergleichen(int eingabe, struCard** pSpieler, struCard** pComputer)
 
 		else if (pPlayer->Gewicht < pCpu->Gewicht)
 		{
+			system("cls");
 			printf("\nDu hast gewonnen\n\n");
 			struCard* entfernteKarteC = VordersteKarte_entfernen(&pCpu);
 			pPlayer = KarteamEnde_hinzufuegen(pPlayer, entfernteKarteC);
